@@ -1,6 +1,7 @@
 <template>
 <v-app>
     <v-app-bar app color="primary" dark>
+        <span>ブックマーク</span>
     </v-app-bar>
 
     <v-main>
