@@ -20,6 +20,11 @@ const routes: RouteConfig[] = [
     name: 'Login',
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue'),
   },
+  {
+    path: '/category/:id',
+    name: 'CategoryDetail',
+    component: () => import(/* webpackChunkName: "about" */ '../views/CategoryDetail.vue'),
+  },
 ];
 
 const router = new VueRouter({
