@@ -66,6 +66,7 @@ export default new Vuex.Store({
   },
   getters:  {
     uid: (state) => (state.login_user ? state.login_user.uid : null),
+    getCategoryId: (state) => (id: string) => state.categores.find((category) => category.id === id),
   },
   modules: {
   },

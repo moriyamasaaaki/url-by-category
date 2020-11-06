@@ -3,8 +3,7 @@
     <h1>ブックマーク</h1>
     <div v-for="category in categores" :key="category.id">
         <ul>
-            <li>{{ category.id }}</li>
-            <li>{{ category.title }}</li>
+            <router-link tag="li" :to="{ name: 'CategoryDetail', params: { id: category.id } }">{{ category.title }}</router-link>
         </ul>
     </div>
     <Modal />
