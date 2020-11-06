@@ -12,6 +12,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import firebase from "firebase";
+import {
+    mapActions
+} from "vuex";
 
 export default Vue.extend({
     name: 'App',
@@ -19,5 +23,24 @@ export default Vue.extend({
     data: () => ({
         //
     }),
+
+    created() {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                this.setLoginUser(user);
+                this.fetchCategores();
+            } else {
+                this.logoutUser();
+            }
+        });
+    },
+
+    methods: {
+        ...mapActions([
+            "setLoginUser",
+            "logoutUser",
+            "fetchCategores",
+        ])
+    }
 });
 </script>
