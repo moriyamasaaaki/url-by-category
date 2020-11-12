@@ -1,8 +1,14 @@
 <template>
-<section>
+<section class="category-detail">
     <p>カテゴリー{{ $route.params.id }}</p>
     <div>
         <p>{{ category.title }}</p>
+    </div>
+
+    <div v-for="bookmark in bookmarks" :key="bookmark.id">
+        <img :src="bookmark.url.match(/^https?:\/{2,}(.*?)(?:\/|\?|#|$)/)[0] + 'favicon.ico'" alt="" onerror="this.src='https://1.bp.blogspot.com/-lGOEBC53sNk/WvQHXNpNfiI/AAAAAAABL6I/EF8b66sqJicObf9JkISl-cuvfc5m4EUrACLcBGAs/s800/internet_404_page_not_found_j.png'; this.removeAttribute('onerror')">
+        <a :href="bookmark.url">{{ bookmark.title }}</a>
+        <span>{{ bookmark.memo }}</span>
     </div>
 
     <v-row justify="center">
@@ -57,6 +63,7 @@ export type CategoryType = {
     dialog: boolean,
     createdAt: Date,
     updatedAt: Date,
+    bookmarks: any,
     bookmark: any,
     categoryId: string,
 
@@ -69,6 +76,7 @@ export default Vue.extend({
             dialog: false,
             createdAt: new Date(),
             updatedAt: new Date(),
+            bookmarks: [],
             bookmark: {},
             categoryId: '',
         }
@@ -76,10 +84,11 @@ export default Vue.extend({
 
     async created() {
         await this.getCategory();
+        await this.getBookmark();
     },
 
     computed: {
-        user(): any {
+        user(): string | null {
             return this.$store.getters.uid;
         }
     },
@@ -91,6 +100,19 @@ export default Vue.extend({
                     .firestore()
                     .collection(`users/${this.$store.getters.uid}/categores/${this.$route.params.id}/bookmark`)
                     .add(this.bookmark)
+            }
+        },
+        getBookmark(): void {
+            if (this.$store.getters.uid) {
+                firebase
+                    .firestore()
+                    .collection(`users/${this.$store.getters.uid}/categores/${this.$route.params.id}/bookmark`)
+                    .orderBy('updatedAt', 'desc')
+                    .onSnapshot((bookmarks) => {
+                        bookmarks.docChanges().forEach((bookmark) => {
+                            this.bookmarks.push(bookmark.doc.data());
+                        })
+                    })
             }
         },
         getCategory(): void {
@@ -108,3 +130,14 @@ export default Vue.extend({
     }
 })
 </script>
+
+<style lang="scss" scoped>
+.category-detail {
+    img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid rgb(242, 241, 241);
+    }
+}
+</style>
