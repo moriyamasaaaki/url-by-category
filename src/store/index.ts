@@ -22,6 +22,12 @@ export default new Vuex.Store({
       state.categores.push(category);
       return state.categores;
     },
+    deleteCategory(state, { id }) {
+      const index = state.categores.findIndex((category) => {
+        return category.id === id;
+      });
+      state.categores.splice(index, 1);
+    },
   },
   actions: {
     googleLogin(): void {
@@ -62,6 +68,18 @@ export default new Vuex.Store({
             commit('addCategory', { id: category.doc.id, category: category.doc.data() });
           });
         });
+    },
+    deleteCategory({ getters, commit }, { id }) {
+      if (getters.uid) {
+        firebase
+          .firestore()
+          .collection(`users/${getters.uid}/categores`)
+          .doc(id)
+          .delete()
+          .then(() => {
+            commit('deleteCategory', { id });
+          });
+      }
     },
   },
   getters:  {
