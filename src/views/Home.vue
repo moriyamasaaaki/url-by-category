@@ -6,6 +6,11 @@
             <ul>
                 <router-link tag="li" class="home__category-item" :to="{ name: 'CategoryDetail', params: { id: category.id } }">{{ category.title }}</router-link>
             </ul>
+            <v-btn @click="deleteCategoryId(category.id)" class="home__category-item-delete-btn" fab dark small color="primary">
+                <v-icon dark>
+                    mdi-minus
+                </v-icon>
+            </v-btn>
         </div>
     </div>
     <Modal />
@@ -15,6 +20,9 @@
 <script lang="ts">
 import Vue from "vue";
 import Modal from "@/components/Modal";
+import {
+    mapActions
+} from "vuex";
 
 export type CategoryType = {
     categores: any[],
@@ -41,6 +49,12 @@ export default Vue.extend({
         getCategores(): void {
             this.categores = this.$store.state.categores;
         },
+        deleteCategoryId(id: string) {
+            this.deleteCategory({
+                id
+            });
+        },
+        ...mapActions(["deleteCategory"])
     }
 })
 </script>
@@ -60,6 +74,7 @@ export default Vue.extend({
     }
 
     &__category-list {
+        position: relative;
         width: 48%;
         border-radius: 8px;
         margin-bottom: 8px;
@@ -71,6 +86,12 @@ export default Vue.extend({
         font-weight: 600;
         color: #5E5E5E;
         padding: 40px 8px;
+    }
+
+    &__category-item-delete-btn {
+        position: absolute;
+        top: -15%;
+        right: -7%;
     }
 }
 </style>
