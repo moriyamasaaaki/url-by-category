@@ -3,9 +3,15 @@
     <p>カテゴリー{{ $route.params.id }}</p>
     <div>
         <p>{{ category.title }}</p>
+        <v-text-field label="カテゴリー" v-model="category.title" required></v-text-field>
+        <v-btn tile color="success" @click="editCategory()">
+            <v-icon>
+                mdi-pencil
+            </v-icon>
+        </v-btn>
     </div>
 
-    <div v-for="bookmark in bookmarks" :key="bookmark.id">
+    <div v-for="(bookmark, index) in bookmarks" :key="`bookmark-${index}-${bookmark.id}`">
         <img :src="bookmark.url.match(/^https?:\/{2,}(.*?)(?:\/|\?|#|$)/)[0] + 'favicon.ico'" alt="" onerror="this.src='https://1.bp.blogspot.com/-lGOEBC53sNk/WvQHXNpNfiI/AAAAAAABL6I/EF8b66sqJicObf9JkISl-cuvfc5m4EUrACLcBGAs/s800/internet_404_page_not_found_j.png'; this.removeAttribute('onerror')">
         <a :href="bookmark.url">{{ bookmark.title }}</a>
         <span>{{ bookmark.memo }}</span>
@@ -57,6 +63,9 @@
 <script lang="ts">
 import Vue from "vue";
 import firebase from 'firebase/app';
+import {
+    mapActions
+} from "vuex";
 
 export type CategoryType = {
     category: object,
@@ -121,12 +130,19 @@ export default Vue.extend({
                 this.category = category;
             }
         },
+        editCategory(): void {
+            this.updateCategory({
+                id: this.$route.params.id,
+                category: this.category
+            });
+        },
         submit(): void {
             this.bookmark.createdAt = this.createdAt;
             this.bookmark.updatedAt = this.updatedAt;
             this.addBookmark();
             this.dialog = false;
         },
+        ...mapActions(["updateCategory"])
     }
 })
 </script>
