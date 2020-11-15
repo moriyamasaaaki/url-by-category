@@ -28,6 +28,13 @@ export default new Vuex.Store({
       });
       state.categores.splice(index, 1);
     },
+    updateCategory(state, { id, category }) {
+      const index = state.categores.findIndex((category) => {
+        return category.id === id;
+      });
+      state.categores[index] = category;
+      state.categores.splice(index, 1);
+    },
   },
   actions: {
     googleLogin(): void {
@@ -78,6 +85,22 @@ export default new Vuex.Store({
           .delete()
           .then(() => {
             commit('deleteCategory', { id });
+          });
+      }
+    },
+    updateCategory({ getters, commit }, { id, category }) {
+      if (getters.uid) {
+        firebase
+          .firestore()
+          .collection(`users/${getters.uid}/categores`)
+          .doc(id)
+          .update({
+            id: category.id,
+            title: category.title,
+            updatedAt: new Date(),
+          })
+          .then(() => {
+            commit('updateCategory', { id, category });
           });
       }
     },

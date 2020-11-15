@@ -2,7 +2,7 @@
 <div class="home">
     <h1>ブックマーク</h1>
     <div class="home__category">
-        <div class="home__category-list" v-for="category in categores" :key="category.id" :style="{ border: `thick double ${category.color}` }">
+        <div class="home__category-list" v-for="(category, index) in categores" :key="`category-${index}-${category.id}`" :style="{ border: `thick double ${category.color}` }">
             <ul>
                 <router-link tag="li" class="home__category-item" :to="{ name: 'CategoryDetail', params: { id: category.id } }">{{ category.title }}</router-link>
             </ul>
