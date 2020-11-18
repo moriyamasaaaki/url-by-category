@@ -1,6 +1,6 @@
 <template>
 <div class="home">
-    <h1>ブックマーク</h1>
+    <h1>カテゴリー</h1>
     <div class="home__category">
         <div class="home__category-list" v-for="(category, index) in categores" :key="`category-${index}-${category.id}`" :style="{ border: `thick double ${category.color}` }">
             <ul>

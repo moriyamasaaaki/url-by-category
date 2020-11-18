@@ -201,8 +201,12 @@ export default Vue.extend({
         notEditCategory(): boolean {
             return this.editCategiryActive = false;
         },
-        editBookmark(id: string): any {
-            return this.editBookmarkActive = true;
+        editBookmark(id: string): void {
+            if(this.editBookmarkActive) {
+                this.editBookmarkActive = false;
+            } else {
+                this.editBookmarkActive = true;
+            }
         },
         updateBookmark(id: string, bookmark: any): void {
             console.log(bookmark)
