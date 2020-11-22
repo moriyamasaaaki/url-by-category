@@ -1,6 +1,9 @@
 <template>
 <v-app>
     <v-app-bar app color="primary" dark>
+        <v-icon dark v-if="this.$route.name === 'CategoryDetail'" @click="this.$router.go(-1)">
+        mdi-arrow-left
+        </v-icon>
         <span>ブックマーク</span>
     </v-app-bar>
 
