@@ -21,8 +21,7 @@
             </v-btn>
         </div>
     </div>
-    <template v-if="bookmarks.length > 0">
-    <div v-for="(bookmark, index) in bookmarks" :key="`bookmark-${index}-${bookmark.title}`">
+    <div v-for="(bookmark, index) in bookmarks" :key="`bookmark-${index}-${bookmark.id}`">
         <img :src="bookmark.url.match(/^https?:\/{2,}(.*?)(?:\/|\?|#|$)/)[0] + 'favicon.ico'" alt="" onerror="this.src='https://1.bp.blogspot.com/-lGOEBC53sNk/WvQHXNpNfiI/AAAAAAABL6I/EF8b66sqJicObf9JkISl-cuvfc5m4EUrACLcBGAs/s800/internet_404_page_not_found_j.png'; this.removeAttribute('onerror')">
         <a :href="bookmark.url">{{ bookmark.title }}</a>
         <span>{{ bookmark.memo }}</span>
@@ -40,15 +39,13 @@
                     mdi-update
                 </v-icon>
             </v-btn>
-            <v-btn tile color="error" @click="deleteBookmark(bookmark.id)">
+            <v-btn class="mx-2" @click="deleteBookmark(bookmark.id, bookmark.title)" color="indigo">
                 <v-icon>
                     mdi-backspace
                 </v-icon>
             </v-btn>
         </div>
     </div>
-    </template>
-
     <v-row justify="center">
         <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ on, attrs }">
@@ -180,8 +177,8 @@ export default Vue.extend({
                     })
             }
         },
-        deleteBookmark(id: string) {
-            if (this.$store.getters.uid) {
+        deleteBookmark(id: string, title: string) {
+            if (this.$store.getters.uid && confirm(`${title}削除しますか？`)) {
                 firebase
                     .firestore()
                     .collection(`users/${this.$store.getters.uid}/categores/${this.$route.params.id}/bookmark`)
