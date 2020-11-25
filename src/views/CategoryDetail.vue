@@ -21,8 +21,8 @@
             </v-btn>
         </div>
     </div>
-
-    <div v-for="(bookmark, index) in bookmarks" :key="`bookmark-${index}-${bookmark.id}`">
+    <template v-if="bookmarks.length > 0">
+    <div v-for="(bookmark, index) in bookmarks" :key="`bookmark-${index}-${bookmark.title}`">
         <img :src="bookmark.url.match(/^https?:\/{2,}(.*?)(?:\/|\?|#|$)/)[0] + 'favicon.ico'" alt="" onerror="this.src='https://1.bp.blogspot.com/-lGOEBC53sNk/WvQHXNpNfiI/AAAAAAABL6I/EF8b66sqJicObf9JkISl-cuvfc5m4EUrACLcBGAs/s800/internet_404_page_not_found_j.png'; this.removeAttribute('onerror')">
         <a :href="bookmark.url">{{ bookmark.title }}</a>
         <span>{{ bookmark.memo }}</span>
@@ -47,6 +47,7 @@
             </v-btn>
         </div>
     </div>
+    </template>
 
     <v-row justify="center">
         <v-dialog v-model="dialog" persistent max-width="600px">
@@ -105,6 +106,7 @@ export type CategoryType = {
     createdAt: Date,
     updatedAt: Date,
     bookmarks: any,
+    // bookmarksStorage: any,
     bookmark: any,
     categoryId: string,
     editCategiryActive: boolean,
@@ -121,6 +123,7 @@ export default Vue.extend({
             createdAt: new Date(),
             updatedAt: new Date(),
             bookmarks: [],
+            // bookmarksStorage: [],
             bookmark: {},
             categoryId: '',
             editCategiryActive: false,
@@ -129,8 +132,16 @@ export default Vue.extend({
     },
 
     async created() {
-        await this.getCategory();
-        await this.getBookmark();
+        const categoryId = this.$store.getters.getCategoryId(this.$route.params.id);
+        if(categoryId) {
+            await this.getCategory();
+            await this.getBookmark();
+        } else {
+            this.$router.push('/');
+        }
+
+        // const json = await JSON.parse(localStorage.getItem(`${this.$route.params.id}`));
+        // this.bookmarksStorage.push(json);
     },
 
     computed: {
@@ -151,6 +162,8 @@ export default Vue.extend({
                         .set({
                             id: bookmark.id
                         },{ merge: true })
+                        // this.bookmark.id = bookmark.id;
+                        // localStorage.setItem(`${this.$route.params.id}-${this.bookmark.id}`, JSON.stringify(this.bookmark));
                     })
             }
         },
