@@ -1,7 +1,7 @@
 <template>
 <v-app>
     <v-app-bar app color="primary" dark>
-        <v-icon dark v-if="this.$route.name === 'CategoryDetail'" @click="this.$router.go(-1)">
+        <v-icon dark v-if="this.$route.name === 'CategoryDetail'" @click="back()">
         mdi-arrow-left
         </v-icon>
         <span>ブックマーク</span>
@@ -19,6 +19,7 @@ import firebase from "firebase";
 import {
     mapActions
 } from "vuex";
+import { Route } from 'vue-router/types/router';
 
 export default Vue.extend({
     name: 'App',
@@ -39,6 +40,9 @@ export default Vue.extend({
     },
 
     methods: {
+        back(): Promise<Route> {
+            return this.$router.push('/');
+        },
         ...mapActions([
             "setLoginUser",
             "logoutUser",
