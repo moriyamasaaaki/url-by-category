@@ -60,6 +60,7 @@
                     <span class="headline">ブックマークの作成</span>
                 </v-card-title>
                 <v-card-text>
+                    <v-form ref="form">
                     <v-container>
                         <v-row>
                             <v-col cols="12">
@@ -73,6 +74,7 @@
                             </v-col>
                         </v-row>
                     </v-container>
+                    </v-form>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -177,7 +179,7 @@ export default Vue.extend({
                     })
             }
         },
-        deleteBookmark(id: string, title: string) {
+        deleteBookmark(id: string, title: string): void {
             if (this.$store.getters.uid && confirm(`${title}削除しますか？`)) {
                 firebase
                     .firestore()
@@ -251,6 +253,7 @@ export default Vue.extend({
             this.bookmark.createdAt = this.createdAt;
             this.bookmark.updatedAt = this.updatedAt;
             this.addBookmark();
+            this.$refs.form.reset();
             this.dialog = false;
         },
         ...mapActions(["updateCategory"])

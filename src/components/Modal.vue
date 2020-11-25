@@ -11,6 +11,7 @@
                 <span class="headline">カテゴリーの作成</span>
             </v-card-title>
             <v-card-text>
+                <v-form ref="form">
                 <v-container>
                     <v-row>
                         <v-col cols="12" sm="6" md="4">
@@ -18,6 +19,7 @@
                         </v-col>
                     </v-row>
                 </v-container>
+                </v-form>
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
@@ -60,6 +62,7 @@ export default Vue.extend({
             this.category.createdAt = this.createdAt;
             this.category.updatedAt = this.updatedAt;
             this.addCategory(this.category);
+            this.$refs.form.reset();
             this.dialog = false;
         },
 
