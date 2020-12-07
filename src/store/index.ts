@@ -20,7 +20,7 @@ export default new Vuex.Store({
     addCategory(state, { id, category }) {
       category.id = id;
       state.categores.push(category);
-      return state.categores;
+      // return state.categores;
     },
     deleteCategory(state, { id }) {
       const index = state.categores.findIndex((category) => {
@@ -72,7 +72,9 @@ export default new Vuex.Store({
         .orderBy('updatedAt', 'desc')
         .onSnapshot((categores) => {
           categores.docChanges().forEach((category) => {
-            commit('addCategory', { id: category.doc.id, category: category.doc.data() });
+            if (category.type === 'added') {
+              commit('addCategory', { id: category.doc.id, category: category.doc.data() });
+            }
           });
         });
     },
