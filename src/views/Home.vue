@@ -6,7 +6,7 @@
             <ul>
                 <router-link tag="li" class="home__category-item" :to="{ name: 'CategoryDetail', params: { id: category.id } }">{{ category.title }}</router-link>
             </ul>
-            <v-btn @click="deleteCategoryId(category.id)" class="home__category-item-delete-btn" fab dark small color="primary">
+            <v-btn @click="deleteCategoryId(category.id, category.title)" class="home__category-item-delete-btn" fab dark small color="primary">
                 <v-icon dark>
                     mdi-minus
                 </v-icon>
@@ -49,10 +49,12 @@ export default Vue.extend({
         getCategores(): void {
             this.categores = this.$store.state.categores;
         },
-        deleteCategoryId(id: string) {
-            this.deleteCategory({
-                id
-            });
+        deleteCategoryId(id: string, title: string) {
+            if (this.$store.getters.uid && confirm(`${title}削除しますか？`)) {
+                this.deleteCategory({
+                    id
+                });
+            }
         },
         ...mapActions(["deleteCategory"])
     }

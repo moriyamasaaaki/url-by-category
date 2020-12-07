@@ -174,7 +174,9 @@ export default Vue.extend({
                     .orderBy('updatedAt', 'desc')
                     .onSnapshot((bookmarks) => {
                         bookmarks.docChanges().forEach((bookmark) => {
-                            this.bookmarks.push(bookmark.doc.data());
+                            if (bookmark.type === 'added') {
+                                this.bookmarks.push(bookmark.doc.data());
+                            }
                         })
                     })
             }
