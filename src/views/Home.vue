@@ -1,19 +1,36 @@
 <template>
 <div class="home">
-    <h1>カテゴリー</h1>
+    <div class="home__header">
+        <h1 class="hdg">Category</h1>
+        <div class="home__header-right">
+            <Modal />
+            <v-btn text dark small color="primary" @click="deleteActive()">
+                <v-icon dark>
+                    mdi-delete
+                </v-icon>
+            </v-btn>            
+        </div>
+    </div>
     <div class="home__category">
         <div class="home__category-list" v-for="(category, index) in categores" :key="`category-${index}-${category.id}`" :style="{ border: `thick double ${category.color}` }">
             <ul>
-                <router-link tag="li" class="home__category-item" :to="{ name: 'CategoryDetail', params: { id: category.id } }">{{ category.title }}</router-link>
+                <router-link tag="li" class="home__category-item" :to="{ name: 'CategoryDetail', params: { id: category.id } }">
+                    <v-icon
+                        color="blue darken-2"
+                        class="icon"
+                        >
+                        mdi-folder
+                    </v-icon>
+                    {{ category.title }}
+                </router-link>
             </ul>
-            <v-btn @click="deleteCategoryId(category.id, category.title)" class="home__category-item-delete-btn" fab dark small color="primary">
+            <v-btn @click="deleteCategoryId(category.id, category.title)" class="home__category-item-delete-btn" :class="{deleteBookmark: deleteBookmarkActive}" fab dark small color="primary">
                 <v-icon dark>
                     mdi-minus
                 </v-icon>
             </v-btn>
         </div>
     </div>
-    <Modal />
 </div>
 </template>
 
@@ -26,6 +43,7 @@ import {
 
 export type CategoryType = {
     categores: any[],
+    deleteBookmarkActive: boolean,
 }
 
 export default Vue.extend({
@@ -37,6 +55,7 @@ export default Vue.extend({
     data(): CategoryType {
         return {
             categores: [],
+            deleteBookmarkActive: false,
         }
     },
 
@@ -56,44 +75,69 @@ export default Vue.extend({
                 });
             }
         },
+        deleteActive() {
+            if (this.deleteBookmarkActive) {
+                this.deleteBookmarkActive = false;
+            } else {
+                this.deleteBookmarkActive = true;
+            }
+        },
         ...mapActions(["deleteCategory"])
     }
 })
 </script>
 
 <style lang="scss" scoped>
+.hdg {
+    font-size: 24px;
+    font-weight: 600;
+    color: #5E5E5E;
+    padding-left: 8px;
+}
 .home {
-    &__category {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        flex-wrap: wrap;
-        width: 100%;
-    }
-
+    position: relative;
     ul {
         padding: 0;
     }
 
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 8px 0 24px;
+    }
+
+    &__header-right {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     &__category-list {
-        position: relative;
-        width: 48%;
-        border-radius: 8px;
-        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgb(211, 211, 211);
+        padding: 24px 8px;
     }
 
     &__category-item {
+        display: flex;
+        align-items: center;
         list-style: none;
         text-align: center;
         font-weight: 600;
         color: #5E5E5E;
-        padding: 40px 8px;
     }
-
     &__category-item-delete-btn {
-        position: absolute;
-        top: -15%;
-        right: -7%;
+        display: none;
     }
+}
+
+.icon {
+    margin-right: 4px;
+}
+.deleteBookmark {
+    display: block;
 }
 </style>
