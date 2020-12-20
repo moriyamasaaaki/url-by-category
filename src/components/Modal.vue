@@ -1,6 +1,6 @@
 <template>
-<v-row justify="center">
-    <v-btn class="mx-2" fab dark color="indigo" @click="dialog = true">
+<v-row class="modal">
+    <v-btn class="mx-2" dark text color="indigo" @click="dialog = true">
         <v-icon dark>
             mdi-plus
         </v-icon>
