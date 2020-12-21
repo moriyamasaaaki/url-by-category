@@ -1,49 +1,55 @@
 <template>
 <section class="category-detail">
     <div>
-        <p class="category-detail__title">{{ category.title }}</p>
-        <v-btn tile color="success" @click="editCategory()" v-if="!editCategiryActive">
-            <v-icon>
-                mdi-pencil
-            </v-icon>
-        </v-btn>
-        <div class="category-detail__edit" :class="{editCategiry: editCategiryActive}">
-            <v-text-field label="カテゴリー" v-model="category.title" required></v-text-field>
-            <v-btn tile color="success" @click="editCategorySubmit()">
-                <v-icon>
-                    mdi-update
-                </v-icon>
-            </v-btn>
-            <v-btn tile color="error" @click="notEditCategory()">
-                <v-icon>
-                    mdi-backspace
-                </v-icon>
-            </v-btn>
+        <div class="category-detail__head">
+            <h1 class="hdg" :class="{categiryPassive: editCategiryPassive}">{{ category.title }}</h1>
+            <div class="category-detail__edit" :class="{editCategiry: editCategiryActive}">
+                <v-text-field label="カテゴリー" v-model="category.title" required></v-text-field>
+            </div>
+            <div class="category-detail__head-right">
+                <v-btn tile text color="success" @click="editCategory()">
+                    <v-icon>
+                        mdi-pencil
+                    </v-icon>
+                </v-btn>
+                <v-btn tile text color="success" class="category-detail__edit" :class="{editCategiry: editCategiryActive}" @click="editCategorySubmit()">
+                    <v-icon>
+                        mdi-update
+                    </v-icon>
+                </v-btn>
+            </div>
         </div>
     </div>
     <div v-for="(bookmark, index) in bookmarks" :key="`bookmark-${index}-${bookmark.id}`">
-        <img :src="bookmark.url.match(/^https?:\/{2,}(.*?)(?:\/|\?|#|$)/)[0] + 'favicon.ico'" alt="" onerror="this.src='https://1.bp.blogspot.com/-lGOEBC53sNk/WvQHXNpNfiI/AAAAAAABL6I/EF8b66sqJicObf9JkISl-cuvfc5m4EUrACLcBGAs/s800/internet_404_page_not_found_j.png'; this.removeAttribute('onerror')">
-        <a :href="bookmark.url">{{ bookmark.title }}</a>
-        <span>{{ bookmark.memo }}</span>
-        <v-btn tile color="primary" @click="editBookmark()">
+        <div class="category-detail__bookmnark">
+        <div class="category-detail__bookmnark-item">
+        <div class="category-detail__bookmnark-item-text">
+            <img :src="bookmark.url.match(/^https?:\/{2,}(.*?)(?:\/|\?|#|$)/)[0] + 'favicon.ico'" alt="" onerror="this.src='https://1.bp.blogspot.com/-lGOEBC53sNk/WvQHXNpNfiI/AAAAAAABL6I/EF8b66sqJicObf9JkISl-cuvfc5m4EUrACLcBGAs/s800/internet_404_page_not_found_j.png'; this.removeAttribute('onerror')">
+            <a :href="bookmark.url">{{ bookmark.title }}</a>
+        </div>
+        <v-btn tile text color="primary" @click="editBookmark()">
             <v-icon>
                 mdi-pencil
             </v-icon>
         </v-btn>
+        </div>
 
         <div class="category-detail__edit" :class="{editBookmark: editBookmarkActive}">
             <v-text-field label="URL" v-model="bookmark.url" required></v-text-field>
             <v-text-field label="タイトル" v-model="bookmark.title" required></v-text-field>
-            <v-btn tile color="success" @click="updateBookmark(bookmark.id, bookmark)">
-                <v-icon>
-                    mdi-update
-                </v-icon>
-            </v-btn>
-            <v-btn class="mx-2" @click="deleteBookmark(bookmark.id, bookmark.title)" color="indigo">
-                <v-icon>
-                    mdi-backspace
-                </v-icon>
-            </v-btn>
+            <div class="category-detail__edit-buttons">
+                <v-btn tile text color="success" @click="updateBookmark(bookmark.id, bookmark)">
+                    <v-icon>
+                        mdi-update
+                    </v-icon>
+                </v-btn>
+                <v-btn text @click="deleteBookmark(bookmark.id, bookmark.title)" color="indigo">
+                    <v-icon>
+                        mdi-delete
+                    </v-icon>
+                </v-btn>
+            </div>
+        </div>
         </div>
     </div>
     <v-row justify="center">
@@ -109,6 +115,7 @@ export type CategoryType = {
     bookmark: any,
     categoryId: string,
     editCategiryActive: boolean,
+    editCategiryPassive: boolean,
     editBookmarkActive: boolean,
 
 }
@@ -126,6 +133,7 @@ export default Vue.extend({
             bookmark: {},
             categoryId: '',
             editCategiryActive: false,
+            editCategiryPassive: false,
             editBookmarkActive: false,
         }
     },
@@ -202,8 +210,14 @@ export default Vue.extend({
                 this.category = category;
             }
         },
-        editCategory(): boolean {
-            return this.editCategiryActive = true;
+        editCategory(): void {
+            if (this.editCategiryActive) {
+                this.editCategiryActive = false;
+                this.editCategiryPassive = false;
+            } else {
+                this.editCategiryActive = true;
+                this.editCategiryPassive = true;
+            }
         },
         editCategorySubmit(): void {
             this.updateCategory({
@@ -211,9 +225,7 @@ export default Vue.extend({
                 category: this.category
             });
             this.editCategiryActive = false;
-        },
-        notEditCategory(): boolean {
-            return this.editCategiryActive = false;
+            this.editCategiryPassive = false;
         },
         editBookmark(id: string): void {
             if(this.editBookmarkActive) {
@@ -264,7 +276,14 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.hdg {
+    font-size: 24px;
+    font-weight: 600;
+    color: #5E5E5E;
+}
+
 .category-detail {
+    padding: 0 8px;
     img {
         width: 40px;
         height: 40px;
@@ -272,13 +291,57 @@ export default Vue.extend({
         border: 1px solid rgb(242, 241, 241);
     }
 
+    &__head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 8px 0 24px;
+    }
+
+    &__head-right {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__bookmnark {
+        margin-bottom: 16px;
+
+        img {
+            display: block;
+            margin-right: 8px;
+        }
+    }
+
+    &__bookmnark-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgb(211, 211, 211);
+        padding: 8px 0;
+        margin-bottom: 16px;
+    }
+
+    &__bookmnark-item-text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     &__edit {
         display: none;
+        margin: 0 0 0 auto;
+    }
+    &__edit-buttons {
+        text-align: right;
     }
 }
 
 .editCategiry,
 .editBookmark {
     display: block;
+}
+.categiryPassive {
+    display: none;
 }
 </style>
