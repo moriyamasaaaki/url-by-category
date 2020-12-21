@@ -91,6 +91,7 @@ export default Vue.extend({
 .hdg {
     font-size: 24px;
     font-weight: 600;
+    font-family: "Hiragino Kaku Gothic ProN", sans-serif;
     color: #5E5E5E;
     padding-left: 8px;
 }
@@ -126,7 +127,9 @@ export default Vue.extend({
         align-items: center;
         list-style: none;
         text-align: center;
-        font-weight: 600;
+        font-weight: 500;
+        font-size: 16px;
+        font-family: "Hiragino Kaku Gothic ProN", sans-serif;
         color: #5E5E5E;
     }
     &__category-item-delete-btn {

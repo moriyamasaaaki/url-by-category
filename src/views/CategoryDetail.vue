@@ -38,12 +38,12 @@
             <v-text-field label="URL" v-model="bookmark.url" required></v-text-field>
             <v-text-field label="タイトル" v-model="bookmark.title" required></v-text-field>
             <div class="category-detail__edit-buttons">
-                <v-btn tile text color="success" @click="updateBookmark(bookmark.id, bookmark)">
+                <v-btn tile text color="primary" @click="updateBookmark(bookmark.id, bookmark)">
                     <v-icon>
                         mdi-update
                     </v-icon>
                 </v-btn>
-                <v-btn text @click="deleteBookmark(bookmark.id, bookmark.title)" color="indigo">
+                <v-btn text @click="deleteBookmark(bookmark.id, bookmark.title)" color="error">
                     <v-icon>
                         mdi-delete
                     </v-icon>
@@ -52,7 +52,7 @@
         </div>
         </div>
     </div>
-    <v-row justify="center">
+    <v-row class="modal">
         <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ on, attrs }">
                 <v-btn class="mx-2" fab dark color="indigo" v-bind="attrs" v-on="on">
@@ -277,8 +277,9 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .hdg {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
+    font-family: "Hiragino Kaku Gothic ProN", sans-serif;
     color: #5E5E5E;
 }
 
@@ -326,6 +327,14 @@ export default Vue.extend({
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+        a {
+            font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #5E5E5E;
+            text-decoration: none;
+        }
     }
 
     &__edit {
@@ -335,6 +344,11 @@ export default Vue.extend({
     &__edit-buttons {
         text-align: right;
     }
+}
+
+.modal {
+    width: 23%;
+    margin: 0 0 0 auto;
 }
 
 .editCategiry,
