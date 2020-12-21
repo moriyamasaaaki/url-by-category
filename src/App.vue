@@ -4,7 +4,7 @@
         <v-icon dark v-if="this.$route.name === 'CategoryDetail'" @click="back()">
         mdi-arrow-left
         </v-icon>
-        <span>ブックマーク</span>
+        <span>キオクン</span>
     </v-app-bar>
 
     <v-main>
