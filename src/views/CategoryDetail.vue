@@ -285,6 +285,8 @@ export default Vue.extend({
 
 .category-detail {
     padding: 0 8px;
+    max-width: 800px;
+    margin: 0 auto;
     img {
         width: 40px;
         height: 40px;

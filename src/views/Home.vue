@@ -97,6 +97,8 @@ export default Vue.extend({
 }
 .home {
     position: relative;
+    max-width: 800px;
+    margin: 0 auto;
     ul {
         padding: 0;
     }
@@ -131,6 +133,7 @@ export default Vue.extend({
         font-size: 16px;
         font-family: "Hiragino Kaku Gothic ProN", sans-serif;
         color: #5E5E5E;
+        cursor: pointer;
     }
     &__category-item-delete-btn {
         display: none;
