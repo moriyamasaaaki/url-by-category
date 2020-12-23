@@ -62,7 +62,7 @@ export default Vue.extend({
             this.category.createdAt = this.createdAt;
             this.category.updatedAt = this.updatedAt;
             this.addCategory(this.category);
-            this.$refs.form.reset();
+            (this as any).$refs.form.reset();
             this.dialog = false;
         },
 

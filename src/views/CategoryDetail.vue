@@ -259,7 +259,7 @@ export default Vue.extend({
                     })
                     .catch(() => {
                         console.log('error')
-                    })
+                    });
             }
         },
         submit(id: string): void {
@@ -270,9 +270,9 @@ export default Vue.extend({
             (this as any).$refs.form.reset();
             this.dialog = false;
         },
-        ...mapActions(["updateCategory"])
-    }
-})
+        ...mapActions(['updateCategory']),
+    },
+});
 </script>
 
 <style lang="scss" scoped>
