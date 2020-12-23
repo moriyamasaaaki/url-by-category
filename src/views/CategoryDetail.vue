@@ -267,7 +267,7 @@ export default Vue.extend({
             this.bookmark.createdAt = this.createdAt;
             this.bookmark.updatedAt = this.updatedAt;
             this.addBookmark();
-            this.$refs.form.reset();
+            (this as any).$refs.form.reset();
             this.dialog = false;
         },
         ...mapActions(["updateCategory"])

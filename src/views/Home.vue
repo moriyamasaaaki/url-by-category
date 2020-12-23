@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Modal from "@/components/Modal";
+import Modal from "@/components/Modal.vue";
 import {
     mapActions
 } from "vuex";
