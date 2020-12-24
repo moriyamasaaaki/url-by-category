@@ -249,13 +249,11 @@ export default Vue.extend({
                         updatedAt: new Date()
                     })
                     .then(() => {
-                        console.log('aaaa')
                         const index = this.bookmarks.findIndex((bookmark: any) => {
                             return bookmark.id === id;
                         });
                         this.bookmarks[index];
-                        console.log(this.bookmarks[index])
-                        this.bookmarks.splice(index, 1);
+                        this.editBookmarkActive = false;
                     })
                     .catch(() => {
                         console.log('error')
