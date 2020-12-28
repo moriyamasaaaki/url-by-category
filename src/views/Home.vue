@@ -12,6 +12,7 @@
         </div>
     </div>
     <div class="home__category">
+        <h2 class="home__category-error-title" v-if="!categores.length">何もありません...。</h2>
         <div class="home__category-list" v-for="(category, index) in categores" :key="`category-${index}-${category.id}`" :style="{ border: `thick double ${category.color}` }">
             <ul>
                 <router-link tag="li" class="home__category-item" :to="{ name: 'CategoryDetail', params: { id: category.id } }">
@@ -114,6 +115,15 @@ export default Vue.extend({
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    &__category-error-title {
+        font-size: 20px;
+        font-weight: 600;
+        font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+        color: #5E5E5E;
+        text-align: center;
+        margin-top: 80px;
     }
 
     &__category-list {

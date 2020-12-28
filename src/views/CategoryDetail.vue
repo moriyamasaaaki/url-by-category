@@ -20,6 +20,7 @@
             </div>
         </div>
     </div>
+    <h2 class="category-detail__bookmnark-error-title" v-show="!bookmarks.length">ブックマークがありません。</h2>
     <div v-for="(bookmark, index) in bookmarks" :key="`bookmark-${index}-${bookmark.id}`">
         <div class="category-detail__bookmnark">
         <div class="category-detail__bookmnark-item">
@@ -303,6 +304,15 @@ export default Vue.extend({
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    &__bookmnark-error-title {
+        font-size: 20px;
+        font-weight: 600;
+        font-family: "Hiragino Kaku Gothic ProN", sans-serif;
+        color: #5E5E5E;
+        text-align: center;
+        margin-top: 80px;
     }
 
     &__bookmnark {
